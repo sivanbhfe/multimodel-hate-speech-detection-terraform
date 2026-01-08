@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fastapi-app-prod
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/sivanbhfe/multimodel-hate-speech-detection-terraform.git
+    targetRevision: master
+    path: apps/multimodal-hatespeech/overlays/prod
+
+  destination:
+    name: prod-context        # <-- THIS is the prod cluster
+    namespace: fastapi-app
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
